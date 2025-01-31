@@ -2,6 +2,8 @@ package com.healthcaremanagement.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Doctors")
 
@@ -19,8 +21,11 @@ public class Doctor {
     @Column(name = "Email")
     private String email;
 
+//    private List<Patient> patients;
 
-    public Doctor(String firstName, String lastName, String specialty, String email) {
+
+    public Doctor(int doctorId, String firstName, String lastName, String specialty, String email) {
+        this.doctorId = doctorId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.specialty = specialty;
