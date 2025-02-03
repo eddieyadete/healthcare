@@ -1,8 +1,10 @@
 package com.healthcaremanagement.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "Offices")
 public class Office {
     @Id

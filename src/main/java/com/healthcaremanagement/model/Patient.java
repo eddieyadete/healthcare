@@ -2,6 +2,7 @@ package com.healthcaremanagement.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,7 +33,7 @@ public class Patient {
     private List<Appointment> appointment;
 
     @ManyToMany(mappedBy = "patients", cascade = {CascadeType.PERSIST} , fetch = FetchType.LAZY)
-    private List<Doctor> doctors;
+    private List<Doctor> doctors = new ArrayList<>();
 
 
     public Patient() {

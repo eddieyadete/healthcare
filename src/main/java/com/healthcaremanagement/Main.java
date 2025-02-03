@@ -23,9 +23,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
-        Session session = factory.openSession();
-//
+
+//        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+//        Session session = factory.openSession();
+////
 //        factory.close();
 //        session.close();
 //
@@ -34,35 +35,83 @@ public class Main {
 //        officeService office = new OfficeRepositoryImpl(SessionFactory sessionFactory);
 //manageOffice();
         manageOffices();
+//        manageDoctors();
     }
     private static void manageOffices(){
+
 //
 //
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         Session session = sessionFactory.openSession();
         OfficeRepositoryImpl officeRepository = new OfficeRepositoryImpl(sessionFactory);
         officeService officeService = new officeService(officeRepository);
+        DoctorRepositoryImpl doctorRepository = new DoctorRepositoryImpl(sessionFactory);
+        DoctorService doctorService = new DoctorService(doctorRepository);
+
 
         Transaction transaction = session.beginTransaction();
         Scanner scanner = new Scanner(System.in);
-        Doctor doctor = new Doctor();
 
-        Office office = new Office();
-        System.out.println("Enter location:");
-        office.setLocation(scanner.nextLine());
-        System.out.println("Enter phone Number:");
-        office.setPhone(scanner.nextLine());
-        System.out.println("Enter doctor");
-        office.setDoctor(doctor);
-
-
-        transaction.commit();
-        session.persist(office);
-
-        officeService.createOffice(office);
+        Office newOffice = new Office();
+        System.out.print("Enter Office Location: ");
+        newOffice.setLocation(scanner.nextLine());
+        System.out.print("Enter Office Phone: ");
+        newOffice.setPhone(scanner.nextLine());
+        Doctor doctor = getDoctorById(doctorService,scanner);
+        if (doctor != null) {
+            newOffice.setDoctor(doctor);
+        } else {
+            System.out.println("Doctor not found.");
+        }
+        officeService.createOffice(newOffice);
+        System.out.println("Office created Successfully.");
         scanner.close();
         sessionFactory.close();
     }
+    private static Doctor getDoctorById(DoctorService doctorService, Scanner scanner) {
+        System.out.print("Enter Doctor ID: ");
+        int id = getValidChoice(scanner);
+        Doctor doctor = doctorService.getDoctorByID(id);
+        if (doctor == null) System.out.println("Doctor not found.");
+        return doctor;
+    }
+    private static int getValidChoice(Scanner scanner) {
+        while (true) {
+            if (scanner.hasNextInt()) {
+                int choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+                return choice;
+            } else {
+                System.out.println("Invalid input! Please enter a number.");
+                scanner.next(); // Discard invalid input
+            }
+        }
+    }
+//        Doctor doctor = new Doctor();
+//        doctor.getDoctorId();
+//
+//
+//        Office office = new Office();
+////        office.setDoctor(doctor);
+//        System.out.println("Enter location:");
+//        office.setLocation(scanner.nextLine());
+//        System.out.println("Enter phone Number:");
+//        office.setPhone(scanner.nextLine());
+//        System.out.println("Enter doctor");
+//        office.setDoctor(doctor);
+
+//        session.save(office);
+//        session.save(doctor);
+
+
+
+//        transaction.commit();
+//        session.persist(office);
+
+
+//        officeService.createOffice(office);
+//
+
 
 
     private static void manageDoctors() {
@@ -137,7 +186,9 @@ public class Main {
         scanner.close();
 
 }
-    }
+}
+
+
 
 
 

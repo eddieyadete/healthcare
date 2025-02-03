@@ -2,6 +2,7 @@ package com.healthcaremanagement.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,14 +23,14 @@ public class Doctor {
     private String email;
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 
     @OneToOne(mappedBy = "doctor", cascade = CascadeType.ALL)
     private Office offices;
 
     @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable
-    private List<Patient> patients;
+    private List<Patient> patients = new ArrayList<>();
 
     public List<Patient> getPatients() {
         return patients;
