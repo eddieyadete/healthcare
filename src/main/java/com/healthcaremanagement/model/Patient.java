@@ -2,6 +2,8 @@ package com.healthcaremanagement.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Patients")
 public class Patient {
@@ -25,6 +27,12 @@ public class Patient {
 
     @Column(name = "PhoneNumber")
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "patients", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Appointment> appointment;
+
+    @ManyToMany(mappedBy = "patients", cascade = {CascadeType.PERSIST} , fetch = FetchType.LAZY)
+    private List<Doctor> doctors;
 
 
     public Patient() {

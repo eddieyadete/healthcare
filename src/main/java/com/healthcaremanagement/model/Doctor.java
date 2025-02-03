@@ -21,8 +21,23 @@ public class Doctor {
     @Column(name = "Email")
     private String email;
 
-//    private List<Patient> patients;
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Appointment> appointments;
 
+    @OneToOne(mappedBy = "doctor", cascade = CascadeType.ALL)
+    private Office offices;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinTable
+    private List<Patient> patients;
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
 
     public Doctor(int doctorId, String firstName, String lastName, String specialty, String email) {
         this.doctorId = doctorId;

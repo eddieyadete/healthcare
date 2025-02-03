@@ -2,6 +2,9 @@ package com.healthcaremanagement.model;
 
 import jakarta.persistence.*;
 
+import javax.print.Doc;
+import java.util.List;
+
 @Entity
 @Table(name = "Appointments")
 public class Appointment {
@@ -22,6 +25,14 @@ public class Appointment {
 
     @Column(name = "Notes")
     private String notes;
+
+    @ManyToOne()
+    @JoinColumn(name = "DoctorID")
+    private Doctor doctors;
+
+    @ManyToOne()
+    @JoinColumn(name = "PatientID")
+    private Patient patients;
 
     public int getAppointmentId() {
         return appointmentId;

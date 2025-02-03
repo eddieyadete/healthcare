@@ -17,6 +17,8 @@ public class Office {
     @JoinColumn(name = "DoctorId")
     private Doctor doctor;
 
+    public Office() {}
+
     public Office(int officeId, String location, String phone, Doctor doctor) {
         this.officeId = officeId;
         this.location = location;
@@ -24,7 +26,7 @@ public class Office {
         this.doctor = doctor;
 
     }
-    public Office() {}
+
 
     public int getOfficeId() {
         return officeId;
